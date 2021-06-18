@@ -190,8 +190,10 @@ def backtest_tune(data: np.ndarray, config: dict, current_best: Union[dict, list
     if 'num_cpus' in config:
         num_cpus = config['num_cpus']
     else:
-        print('Parameter num_cpus should be defined in the configuration. Defaulting to 2.')
-        num_cpus = 2
+        import psutil
+        num_cpus = psutil.cpu_count(logical=False)
+        print(f'Parameter num_cpus should be defined in the configuration. Defaulting to {num_cpus}.')
+        
     n_particles = config['n_particles'] if 'n_particles' in config else 10
     phi1 = 1.4962
     phi2 = 1.4962
